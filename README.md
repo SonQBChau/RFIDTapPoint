@@ -15,8 +15,8 @@ sudo pip3 install mfrc522
 ```
 3. Install python-firebase:
 ```
-sudo pip install requests
-sudo pip install python-firebase
+sudo pip3 install requests
+sudo pip3 install python-firebase
 ```
 4. We install the required packages for WS281x:
 ```
