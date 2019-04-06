@@ -34,8 +34,8 @@ sudo scons
 6. Switch to the Python folder and carry out the installation:
 ```
 cd python
-sudo python setup.py build
-sudo python setup.py install
+sudo python3 setup.py build
+sudo python3 setup.py install
 ```
 
 Download ZIP files above and extract it to python/examples
