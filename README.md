@@ -38,9 +38,7 @@ sudo python3 setup.py build
 sudo python3 setup.py install
 ```
 
-Download ZIP files above and extract it to python/examples
-
-Run: 
+Clone or download RFIDTapPoint repo to the desired location and run:
 ```
 sudo python3 Read.py
 ```
