@@ -26,7 +26,7 @@ sudo apt-get install gcc make build-essential python-dev git scons swig
 ```
 git clone https://github.com/jgarff/rpi_ws281x
 ```
-In this directory are on the one hand some C files included, which can be easily compiled. The example code for this is easy to understand. In order to use them in Python, we need to compile them:
+In this directory are on the one hand some C files included, which can be easily compiled. In order to use them in Python, we need to compile them:
 ```
 cd rpi_ws281x/
 sudo scons
