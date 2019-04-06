@@ -38,8 +38,9 @@ sudo python3 setup.py build
 sudo python3 setup.py install
 ```
 
-Clone or download RFIDTapPoint repo above to the desired location and run:
+Done! Now we should be able to clone or download RFIDTapPoint repo above to the desired location and run:
 ```
+cd RFIDTapPoint/
 sudo python3 Read.py
 ```
 
