@@ -120,6 +120,11 @@ try:
         print("ID: %s\nText: %s" % (id, text))
         if id == 797256866421: # replace with the device ID card
             
+            # update entry
+            firebaseID = str(id)
+            url = '/KidsClubLog/{}'.format(firebaseID)
+            firebase.put(url, 'Read', 1)
+            
             # read from firebase
             result = firebase.get('/KidsClubLog', None)
             print (result)
