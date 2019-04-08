@@ -121,11 +121,18 @@ try:
         if id == 797256866421: # replace with the device ID card
             
             # update entry
-            firebaseID = str(id)
+            firebaseID = '225111446012' # replace with ID testing from Firebase: eg. 225111446012
             url = '/KidsClubLog/{}'.format(firebaseID)
-            firebase.put(url, 'Read', 1)
+            result = firebase.get(url, None)
+
+            # success, update to Firebase 
+            if result:
+                firebase.put(url, 'Read', 1)
+            else:
+                print('This ID does not exist!')
+
             
-            # read from firebase
+            # print debug
             result = firebase.get('/KidsClubLog', None)
             print (result)
             
