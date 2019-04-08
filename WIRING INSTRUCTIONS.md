@@ -27,8 +27,24 @@ RST connects to Pin 22.
 
 3.3v connects to Pin 1.
 
+# Audio not playing on USB Speaker:
+
+Open sudo nano /usr/share/alsa/alsa.conf and look for the following two lines:
+```
+defaults.ctl.card 0
+defaults.pcm.card 0
+```
+Change both “0” to “1” and then save the file.
+```
+defaults.ctl.card 1
+defaults.pcm.card 1
+```
 # References:
 
 How to setup a Raspberry Pi RFID RC522 Chip:
 
 https://pimylifeup.com/raspberry-pi-rfid-rc522/
+
+Connect and Control WS2812 RGB LED Strips via Raspberry Pi:
+
+https://tutorials-raspberrypi.com/connect-control-raspberry-pi-ws2812-rgb-led-strips/
