@@ -37,6 +37,7 @@ cd python
 sudo python3 setup.py build
 sudo python3 setup.py install
 ```
+Notes: if you run into problem spi package could not be uninstalled, please find and remove it from the script so the installation will go through.
 
 Done! Now we should be able to clone or download RFIDTapPoint repo above to the desired location and run:
 ```
