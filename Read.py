@@ -5,6 +5,7 @@ from mfrc522 import SimpleMFRC522
 import pygame
 from time import sleep
 import time
+import datetime
 from neopixel import *
 import argparse
 from firebase import firebase
@@ -96,6 +97,14 @@ def playSuccessEmployee():
     playLightSuccessEmployee()
     sleep(1)
     soundSuccessEmployee.stop()
+
+
+def playSuccessParent():
+    print ('success sound for employee...')
+    soundSuccessEmployee.play()
+    playLightSuccessParent()
+    sleep(1)
+    soundSuccessEmployee.stop()
     
 def playError():
     print ('error sound....')
@@ -125,6 +134,13 @@ def playLightSuccessEmployee():
         colorWipe(strip, Color(0,0,0))
         time.sleep(0.3)
 
+def playLightSuccessParent():
+    print ('parent color....')
+    for i in range(1):
+        colorWipe(strip, Color(0,0 , 255))
+        time.sleep(0.4)
+        colorWipe(strip, Color(0,0,0))
+        time.sleep(0.3)
 
 """
 LOOP FOR RFID READER WAITING TO BE SCANNED
@@ -134,18 +150,25 @@ try:
         print("Hold a tag near the reader")
         id, text = reader.read()
         print("ID: %s\nText: %s" % (id, text))
+        """
+            KID ID: 165068935866
+            PARENT ID: 225094668797
+            EMPLOYEE ID: 225111446012
+        """
         
         # replace with the device ID
-        if id == 165068935866: #797256866421: # REPLACE THIS WITH THE ID CARD FOR CHILD
+        if id == 165068935866: # REPLACE THIS WITH THE ID CARD FOR CHILD
             
             # update entry
-            firebaseID = '165068935866' # assume this is ID for kid in Firebase
+            firebaseID = '165068935866' # KID ID
             url = '/KidsClubLog/{}'.format(firebaseID)
             result = firebase.get(url, None)
 
             # success, update to Firebase 
             if result:
                 firebase.put(url, 'Read', 1)
+                firebase.put(url, 'Time', datetime.datetime.now())
+
             else:
                 print('This ID does not exist!')
 
@@ -159,15 +182,37 @@ try:
           
             #sleep(1)
             
-        elif id == 225111446012: #768876878351: # REPLACE THIS WITH THE ID CARD FOR EMPLOYEE
+        elif id == 225094668797: # REPLACE THIS WITH THE ID CARD FOR PARENT
             # update entry
-            firebaseID = '225111446012' # assume this is ID for employee in Firebase
+            firebaseID = '225094668797' # PARENT ID
             url = '/KidsClubLog/{}'.format(firebaseID)
             result = firebase.get(url, None)
 
             # success, update to Firebase 
             if result:
                 firebase.put(url, 'Read', 1)
+                firebase.put(url, 'Time', datetime.datetime.now())
+            else:
+                print('This ID does not exist!')
+
+            
+            # print debug
+            result = firebase.get('/KidsClubLog', None)
+            print (result)
+            
+            # play sound and light
+            playSuccessParent()
+            
+        elif id == 225111446012: # REPLACE THIS WITH THE ID CARD FOR EMPLOYEE
+            # update entry
+            firebaseID = '225111446012' # EMPLOYEE ID
+            url = '/KidsClubLog/{}'.format(firebaseID)
+            result = firebase.get(url, None)
+
+            # success, update to Firebase 
+            if result:
+                firebase.put(url, 'Read', 1)
+                firebase.put(url, 'Time', datetime.datetime.now())
             else:
                 print('This ID does not exist!')
 
@@ -178,6 +223,7 @@ try:
             
             # play sound and light
             playSuccessEmployee()
+            
         else: # ANY OTHER CARDS WILL MAKE IT INVALID
             playError()
             
