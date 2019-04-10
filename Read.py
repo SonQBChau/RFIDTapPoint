@@ -136,7 +136,7 @@ try:
         print("ID: %s\nText: %s" % (id, text))
         
         # replace with the device ID
-        if id == 797256866421: # REPLACE THIS WITH THE ID CARD FOR CHILD
+        if id == 165068935866: #797256866421: # REPLACE THIS WITH THE ID CARD FOR CHILD
             
             # update entry
             firebaseID = '165068935866' # assume this is ID for kid in Firebase
@@ -159,7 +159,7 @@ try:
           
             #sleep(1)
             
-        elif id == 768876878351: # REPLACE THIS WITH THE ID CARD FOR EMPLOYEE
+        elif id == 225111446012: #768876878351: # REPLACE THIS WITH THE ID CARD FOR EMPLOYEE
             # update entry
             firebaseID = '225111446012' # assume this is ID for employee in Firebase
             url = '/KidsClubLog/{}'.format(firebaseID)
