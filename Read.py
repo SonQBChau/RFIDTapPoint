@@ -23,6 +23,7 @@ LED_CHANNEL    = 0       # set to '1' for GPIOs 13, 19, 41, 45 or 53
 pygame.mixer.init()
 #pygame is picky, wav file should be 16 bitdepth
 soundSuccess = pygame.mixer.Sound("sounds/happy_34.wav")
+soundSuccessEmployee = pygame.mixer.Sound("sounds/ding_1.wav")
 soundError = pygame.mixer.Sound("sounds/happy_2.wav")
 
 # Create NeoPixel object with appropriate configuration.
@@ -83,12 +84,19 @@ def wheel(pos):
 FUNCTIONS CONTROLLER FOR PLAY
 """
 def playSuccess():
-    print ('success sound....')
+    print ('success sound for kid....')
     soundSuccess.play()
     playLightSuccess()
     #sleep(3)
     soundSuccess.stop()
 
+def playSuccessEmployee():
+    print ('success sound for employee...')
+    soundSuccessEmployee.play()
+    playLightSuccessEmployee()
+    sleep(1)
+    soundSuccessEmployee.stop()
+    
 def playError():
     print ('error sound....')
     soundError.play()
@@ -109,6 +117,14 @@ def playLightError():
         colorWipe(strip, Color(0,0,0))
         time.sleep(0.3)
 
+def playLightSuccessEmployee():
+    print ('employee color....')
+    for i in range(1):
+        colorWipe(strip, Color(255,0 , 0))
+        time.sleep(0.4)
+        colorWipe(strip, Color(0,0,0))
+        time.sleep(0.3)
+
 
 """
 LOOP FOR RFID READER WAITING TO BE SCANNED
@@ -118,10 +134,12 @@ try:
         print("Hold a tag near the reader")
         id, text = reader.read()
         print("ID: %s\nText: %s" % (id, text))
-        if id == 797256866421: # replace with the device ID card
+        
+        # replace with the device ID
+        if id == 797256866421: # REPLACE THIS WITH THE ID CARD FOR CHILD
             
             # update entry
-            firebaseID = '225111446012' # replace with ID testing from Firebase: eg. 225111446012
+            firebaseID = '165068935866' # assume this is ID for kid in Firebase
             url = '/KidsClubLog/{}'.format(firebaseID)
             result = firebase.get(url, None)
 
@@ -140,7 +158,27 @@ try:
             playSuccess()
           
             #sleep(1)
-        else:
+            
+        elif id == 768876878351: # REPLACE THIS WITH THE ID CARD FOR EMPLOYEE
+            # update entry
+            firebaseID = '225111446012' # assume this is ID for employee in Firebase
+            url = '/KidsClubLog/{}'.format(firebaseID)
+            result = firebase.get(url, None)
+
+            # success, update to Firebase 
+            if result:
+                firebase.put(url, 'Read', 1)
+            else:
+                print('This ID does not exist!')
+
+            
+            # print debug
+            result = firebase.get('/KidsClubLog', None)
+            print (result)
+            
+            # play sound and light
+            playSuccessEmployee()
+        else: # ANY OTHER CARDS WILL MAKE IT INVALID
             playError()
             
 
