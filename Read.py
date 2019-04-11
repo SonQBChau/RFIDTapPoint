@@ -42,6 +42,16 @@ firebase = firebase.FirebaseApplication('https://findmykid-51edc.firebaseio.com/
 """
 FUNCTIONS CONTROL FOR LIGHT STRIP
 """
+DOT_COLORS = [  0x200000,   # red
+		0x201000,   # orange
+		0x202000,   # yellow
+		0x002000,   # green
+		0x002020,   # lightblue
+		0x000020,   # blue
+		0x100010,   # purple
+		0x200010 ]  # pink
+
+
 def colorWipe(strip, color, wait_ms=50):
     """Wipe color across display a pixel at a time."""
     for i in range(strip.numPixels()):
@@ -81,6 +91,69 @@ def wheel(pos):
         pos -= 170
         return Color(0, pos * 3, 255 - pos * 3)
 
+
+def colorBreath():
+    """Breathing effect animation."""
+    for j in range(3):
+        #Fade IN
+        for k in range(100):
+            color = Color(0, 0, 0)
+            if j == 0:
+                color = Color(k, 0, 0)
+            elif j == 1:
+                color = Color(0, k, 0)
+            elif j == 2:
+                color = Color(0, 0, k)
+            colorWipe(strip, color)
+            time.sleep(10/1000.0)
+        # Fade OUT
+        for k in range(100, 0, -1):
+            color = Color(0, 0, 0)
+            if j == 0:
+                color = Color(k, 0, 0)
+            elif j == 1:
+                color = Color(0, k, 0)
+            elif j == 2:
+                color = Color(0, 0, k)
+            colorWipe(strip, color)
+    
+def colorBounce():
+    """Color bounce from start to end animation."""
+    eyeSize = 10
+    rangeEye = LED_COUNT - eyeSize - 2
+    speedDelay = 20
+    returnDelay = 100
+    
+    for i in range(0, rangeEye, 1):
+        colorLess = Color(0, 0, 0)
+        colorWipe(strip, colorLess)
+        colorHigh= Color(0, 100, 0)
+        colorLow = Color (0, 10, 0)
+        strip.setPixelColor(i, colorLow)
+        for j in range(1, eyeSize, 1):
+            strip.setPixelColor(i+j, colorHigh)
+        strip.setPixelColor(j+eyeSize+1, colorLow)
+        strip.show()
+        time.sleep(speedDelay/1000.0)
+            
+    time.sleep(returnDelay/1000.0)
+        
+    for i in range(rangeEye,0 ,-1):
+        colorLess = Color(0, 0, 0)
+        colorWipe(strip, colorLess)
+        colorHigh= Color(0, 100, 0)
+        colorLow = Color (0, 10, 0)
+        strip.setPixelColor(i, colorLow)
+        for j in range(1, eyeSize, 1):
+            strip.setPixelColor(i+j, colorHigh)
+        strip.setPixelColor(j+eyeSize+1, colorLow)
+        strip.show()
+        time.sleep(speedDelay/1000.0)
+        
+    time.sleep(returnDelay/1000.0)
+    
+    colorWipe(strip, Color(0,0,0))
+    
 """
 FUNCTIONS CONTROLLER FOR PLAY
 """
@@ -141,6 +214,10 @@ def playLightSuccessParent():
         time.sleep(0.4)
         colorWipe(strip, Color(0,0,0))
         time.sleep(0.3)
+        
+def playLightTest():
+    colorBreath()
+    colorBounce()
 
 """
 LOOP FOR RFID READER WAITING TO BE SCANNED
@@ -226,6 +303,8 @@ try:
             
         else: # ANY OTHER CARDS WILL MAKE IT INVALID
             playError()
+            #print("Playing Light Test...")
+            #playLightTest()
             
 
 finally:
