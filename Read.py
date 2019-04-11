@@ -105,7 +105,7 @@ def colorBreath():
             elif j == 2:
                 color = Color(0, 0, k)
             colorWipe(strip, color)
-            time.sleep(10/1000.0)
+            time.sleep(5/1000.0)
         # Fade OUT
         for k in range(100, 0, -1):
             color = Color(0, 0, 0)
@@ -116,6 +116,7 @@ def colorBreath():
             elif j == 2:
                 color = Color(0, 0, k)
             colorWipe(strip, color)
+	    time.sleep(5/1000.0)
     
 def colorBounce():
     """Color bounce from start to end animation."""
