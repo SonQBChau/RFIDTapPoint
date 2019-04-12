@@ -22,6 +22,8 @@ sudo pip3 install python-firebase
 ```
 sudo apt-get install gcc make build-essential python-dev git scons swig
 ```
+Notes: if you run into problem spi package could not be uninstalled, please find and remove it from the script so the installation will go through.
+
 5. Now we can download the library
 ```
 git clone https://github.com/jgarff/rpi_ws281x
@@ -37,7 +39,7 @@ cd python
 sudo python3 setup.py build
 sudo python3 setup.py install
 ```
-Notes: if you run into problem spi package could not be uninstalled, please find and remove it from the script so the installation will go through.
+
 
 Done! Now we should be able to clone or download RFIDTapPoint repo above to the desired location and run:
 ```
