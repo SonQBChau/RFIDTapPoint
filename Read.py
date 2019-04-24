@@ -8,7 +8,9 @@ import time
 import datetime
 from neopixel import *
 import argparse
-from firebase import firebase
+#from firebase import firebase
+import pyrebase
+
 
 # LED strip configuration:
 LED_COUNT      = 93      # Number of LED pixels.
@@ -36,7 +38,16 @@ strip.begin()
 reader = SimpleMFRC522()
 
 # Create Firebase object 
-firebase = firebase.FirebaseApplication('https://findmykid-51edc.firebaseio.com/', None)
+#firebase = firebase.FirebaseApplication('https://findmykid-51edc.firebaseio.com/', None)
+config = {
+  "apiKey": "apiKey",
+  "authDomain": "projectId.firebaseapp.com",
+  "databaseURL": "https://findmykid-51edc.firebaseio.com",
+  "storageBucket": "projectId.appspot.com"
+}
+
+firebase = pyrebase.initialize_app(config)
+db = firebase.database()
 
 
 """
@@ -242,13 +253,11 @@ try:
         # replace with the device ID
         if id == 797256866421: # REPLACE THIS WITH THE ID CARD FOR CHILD CHECKIN     
             firebaseID = '165068935866' # KID CHECKIN ID
-            url = '/KidsClubLog/{}'.format(firebaseID)
-            currentScreen = firebase.get('/CurrentScreen', None)
+            currentScreen = db.child("CurrentScreen").get().val()
             print ("Current Screen: {}".format(currentScreen))
        
             if currentScreen == 30: # check in page is 30
-                firebase.put(url, 'Read', 1)
-                firebase.put(url, 'Time', datetime.datetime.now())
+                db.child("KidsClubLog").child(firebaseID).update({"Read":1, "Time": str(datetime.datetime.now())})
                 playSuccess()
 
             else:
@@ -257,13 +266,11 @@ try:
 
         elif id == 317068237436: # REPLACE THIS WITH THE ID CARD FOR CHILD CHECKOUT   
             firebaseID = '853040429192' # KID CHECKOUT ID
-            url = '/KidsClubLog/{}'.format(firebaseID)
-            currentScreen = firebase.get('/CurrentScreen', None)
+            currentScreen = db.child("CurrentScreen").get().val()
             print ("Current Screen: {}".format(currentScreen))
        
             if currentScreen == 31: # check out page is 31
-                firebase.put(url, 'Read', 1)
-                firebase.put(url, 'Time', datetime.datetime.now())
+                db.child("KidsClubLog").child(firebaseID).update({"Read":1, "Time": str(datetime.datetime.now())})
                 playSuccess()
 
             else:
@@ -272,13 +279,11 @@ try:
                                 
         elif id == 768876878351: # REPLACE THIS WITH THE ID CARD FOR PARENT
             firebaseID = '225094668797' # PARENT ID
-            url = '/KidsClubLog/{}'.format(firebaseID)
-            currentScreen = firebase.get('/CurrentScreen', None)
+            currentScreen = db.child("CurrentScreen").get().val()
             print ("Current Screen: {}".format(currentScreen))
 
             if currentScreen == 1 or currentScreen == 18: # parent page is: 1, 18
-                firebase.put(url, 'Read', 1)
-                firebase.put(url, 'Time', datetime.datetime.now())
+                db.child("KidsClubLog").child(firebaseID).update({"Read":1, "Time": str(datetime.datetime.now())})
                 # play sound and light
                 playSuccessParent()
             else:
@@ -286,13 +291,11 @@ try:
             
         elif id == 872787545537: # REPLACE THIS WITH THE ID CARD FOR EMPLOYEE
             firebaseID = '225111446012' # EMPLOYEE ID
-            url = '/KidsClubLog/{}'.format(firebaseID)
-            currentScreen = firebase.get('/CurrentScreen', None)
+            currentScreen = db.child("CurrentScreen").get().val()
             print ("Current Screen: {}".format(currentScreen))
 
             if currentScreen == 17:
-                firebase.put(url, 'Read', 1)
-                firebase.put(url, 'Time', datetime.datetime.now())
+                db.child("KidsClubLog").child(firebaseID).update({"Read":1, "Time": str(datetime.datetime.now())})
                 # play sound and light
                 playSuccessEmployee()
             else:
