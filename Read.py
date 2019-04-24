@@ -116,7 +116,7 @@ def colorBreath():
             elif j == 2:
                 color = Color(0, 0, k)
             colorWipe(strip, color)
-	    time.sleep(5/1000.0)
+            time.sleep(5/1000.0)
     
 def colorBounce():
     """Color bounce from start to end animation."""
@@ -162,12 +162,11 @@ def playSuccess():
     print ('success sound for kid....')
     soundSuccess.play()
     playLightSuccess()
-    #sleep(3)
     soundSuccess.stop()
 
 def playSuccessEmployee():
     print ('success sound for employee...')
-    soundSuccessEmployee.play()
+    #soundSuccessEmployee.play()
     playLightSuccessEmployee()
     sleep(1)
     soundSuccessEmployee.stop()
@@ -215,10 +214,15 @@ def playLightSuccessParent():
         time.sleep(0.4)
         colorWipe(strip, Color(0,0,0))
         time.sleep(0.3)
-        
+
+def playSoundTest():
+    soundTest = pygame.mixer.Sound("sounds/sounds_13.wav")
+    soundTest.play()
+    
 def playLightTest():
     colorBreath()
     colorBounce()
+                
 
 """
 LOOP FOR RFID READER WAITING TO BE SCANNED
@@ -229,83 +233,80 @@ try:
         id, text = reader.read()
         print("ID: %s\nText: %s" % (id, text))
         """
-            KID ID: 165068935866
+            KID CHECKIN ID: 165068935866
+            KID CHECKOUT ID: 853040429192
             PARENT ID: 225094668797
             EMPLOYEE ID: 225111446012
         """
         
         # replace with the device ID
-        if id == 165068935866: # REPLACE THIS WITH THE ID CARD FOR CHILD
-            
-            # update entry
-            firebaseID = '165068935866' # KID ID
+        if id == 797256866421: # REPLACE THIS WITH THE ID CARD FOR CHILD CHECKIN     
+            firebaseID = '165068935866' # KID CHECKIN ID
             url = '/KidsClubLog/{}'.format(firebaseID)
-            result = firebase.get(url, None)
-
-            # success, update to Firebase 
-            if result:
+            currentScreen = firebase.get('/CurrentScreen', None)
+            print ("Current Screen: {}".format(currentScreen))
+       
+            if currentScreen == 30: # check in page is 30
                 firebase.put(url, 'Read', 1)
                 firebase.put(url, 'Time', datetime.datetime.now())
+                playSuccess()
 
             else:
-                print('This ID does not exist!')
+                # wrong app screen while sliding RFID
+                playError()
 
-            
-            # print debug
-            result = firebase.get('/KidsClubLog', None)
-            print (result)
-            
-            # play sound and light
-            playSuccess()
-          
-            #sleep(1)
-            
-        elif id == 225094668797: # REPLACE THIS WITH THE ID CARD FOR PARENT
-            # update entry
+        elif id == 317068237436: # REPLACE THIS WITH THE ID CARD FOR CHILD CHECKOUT   
+            firebaseID = '853040429192' # KID CHECKOUT ID
+            url = '/KidsClubLog/{}'.format(firebaseID)
+            currentScreen = firebase.get('/CurrentScreen', None)
+            print ("Current Screen: {}".format(currentScreen))
+       
+            if currentScreen == 31: # check out page is 31
+                firebase.put(url, 'Read', 1)
+                firebase.put(url, 'Time', datetime.datetime.now())
+                playSuccess()
+
+            else:
+                # wrong app screen while sliding RFID
+                playError()
+                                
+        elif id == 768876878351: # REPLACE THIS WITH THE ID CARD FOR PARENT
             firebaseID = '225094668797' # PARENT ID
             url = '/KidsClubLog/{}'.format(firebaseID)
-            result = firebase.get(url, None)
+            currentScreen = firebase.get('/CurrentScreen', None)
+            print ("Current Screen: {}".format(currentScreen))
 
-            # success, update to Firebase 
-            if result:
+            if currentScreen == 1 or currentScreen == 18: # parent page is: 1, 18
                 firebase.put(url, 'Read', 1)
                 firebase.put(url, 'Time', datetime.datetime.now())
+                # play sound and light
+                playSuccessParent()
             else:
-                print('This ID does not exist!')
-
+                playError()
             
-            # print debug
-            result = firebase.get('/KidsClubLog', None)
-            print (result)
-            
-            # play sound and light
-            playSuccessParent()
-            
-        elif id == 225111446012: # REPLACE THIS WITH THE ID CARD FOR EMPLOYEE
-            # update entry
+        elif id == 872787545537: # REPLACE THIS WITH THE ID CARD FOR EMPLOYEE
             firebaseID = '225111446012' # EMPLOYEE ID
             url = '/KidsClubLog/{}'.format(firebaseID)
-            result = firebase.get(url, None)
+            currentScreen = firebase.get('/CurrentScreen', None)
+            print ("Current Screen: {}".format(currentScreen))
 
-            # success, update to Firebase 
-            if result:
+            if currentScreen == 17:
                 firebase.put(url, 'Read', 1)
                 firebase.put(url, 'Time', datetime.datetime.now())
+                # play sound and light
+                playSuccessEmployee()
             else:
-                print('This ID does not exist!')
+                playError()
 
+  
             
-            # print debug
-            result = firebase.get('/KidsClubLog', None)
-            print (result)
             
-            # play sound and light
-            playSuccessEmployee()
             
         else: # ANY OTHER CARDS WILL MAKE IT INVALID
             playError()
             #print("Playing Light Test...")
             #playLightTest()
+            #playSoundTest()
             
 
 finally:
