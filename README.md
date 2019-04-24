@@ -13,10 +13,10 @@ sudo pip3 install spidev
 ```
 sudo pip3 install mfrc522
 ```
-3. Install python-firebase:
+3. Install Pyrebase:
 ```
-sudo pip3 install requests
-sudo pip3 install python-firebase
+sudo pip3 install pyrebase
+sudo pip3 install --upgrade google-auth-oauthlib
 ```
 4. We install the required packages for WS281x:
 ```
