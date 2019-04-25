@@ -251,7 +251,7 @@ try:
         """
         
         # replace with the device ID
-        if id == 797256866421: # REPLACE THIS WITH THE ID CARD FOR CHILD CHECKIN     
+        if id == 165068935866: # REPLACE THIS WITH THE ID CARD FOR CHILD CHECKIN     
             firebaseID = '165068935866' # KID CHECKIN ID
             currentScreen = db.child("CurrentScreen").get().val()
             #print ("Current Screen: {}".format(currentScreen))
@@ -263,7 +263,7 @@ try:
                 # wrong app screen while sliding RFID
                 playError()
 
-        elif id == 317068237436: # REPLACE THIS WITH THE ID CARD FOR CHILD CHECKOUT   
+        elif id == 853040429192: # REPLACE THIS WITH THE ID CARD FOR CHILD CHECKOUT   
             firebaseID = '853040429192' # KID CHECKOUT ID
             currentScreen = db.child("CurrentScreen").get().val()
             #print ("Current Screen: {}".format(currentScreen))
@@ -275,7 +275,7 @@ try:
                 # wrong app screen while sliding RFID
                 playError()
                                 
-        elif id == 768876878351: # REPLACE THIS WITH THE ID CARD FOR PARENT
+        elif id == 225094668797: # REPLACE THIS WITH THE ID CARD FOR PARENT
             firebaseID = '225094668797' # PARENT ID
             currentScreen = db.child("CurrentScreen").get().val()
             #print ("Current Screen: {}".format(currentScreen))
@@ -286,7 +286,7 @@ try:
             else:
                 playError()
             
-        elif id == 872787545537: # REPLACE THIS WITH THE ID CARD FOR EMPLOYEE
+        elif id == 225111446012: # REPLACE THIS WITH THE ID CARD FOR EMPLOYEE
             firebaseID = '225111446012' # EMPLOYEE ID
             currentScreen = db.child("CurrentScreen").get().val()
             #print ("Current Screen: {}".format(currentScreen))
