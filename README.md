@@ -52,7 +52,7 @@ sudo python3 Read.py
 ```
 sudo nano /etc/rc.local
 ```
-Add commands to execute the python program at the bottom, replace the path to /home/pi/<your-path>/Read.py
+Add commands to execute the python program at the bottom, replace the path to /home/pi/ <your-path> /Read.py
 ```
 sudo python3 /home/pi/RFIDTapPoint-master/Read.py &
 exit 0
