@@ -47,3 +47,14 @@ cd RFIDTapPoint/
 sudo python3 Read.py
 ```
 
+# Run on startup:
+1. Edit the file /etc/rc.local:
+```
+sudo nano /etc/rc.local
+```
+Add commands to execute the python program at the bottom, replace the path to /home/pi/<your-path>/Read.py
+```
+sudo python3 /home/pi/RFIDTapPoint-master/Read.py &
+exit 0
+```
+Press Ctrl-O to save then Ctrl-X to exit nano
