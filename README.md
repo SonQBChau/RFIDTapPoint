@@ -57,4 +57,4 @@ Add commands to execute the python program at the bottom, replace the path to /h
 sudo python3 /home/pi/RFIDTapPoint-master/Read.py &
 exit 0
 ```
-Press Ctrl-O to save then Ctrl-X to exit nano
+Press Ctrl-O -> Enter to save then Ctrl-X to exit nano
