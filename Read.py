@@ -7,7 +7,7 @@ from time import sleep
 import time
 import datetime
 from neopixel import *
-import argparse
+#import argparse
 #from firebase import firebase
 import pyrebase
 
@@ -38,7 +38,6 @@ strip.begin()
 reader = SimpleMFRC522()
 
 # Create Firebase object 
-#firebase = firebase.FirebaseApplication('https://findmykid-51edc.firebaseio.com/', None)
 config = {
   "apiKey": "apiKey",
   "authDomain": "projectId.firebaseapp.com",
@@ -240,6 +239,7 @@ LOOP FOR RFID READER WAITING TO BE SCANNED
 """
 try:
     while True:
+        sleep(0.1)
         print("Hold a tag near the reader")
         id, text = reader.read()
         print("ID: %s\nText: %s" % (id, text))
@@ -254,12 +254,11 @@ try:
         if id == 797256866421: # REPLACE THIS WITH THE ID CARD FOR CHILD CHECKIN     
             firebaseID = '165068935866' # KID CHECKIN ID
             currentScreen = db.child("CurrentScreen").get().val()
-            print ("Current Screen: {}".format(currentScreen))
+            #print ("Current Screen: {}".format(currentScreen))
        
             if currentScreen == 30: # check in page is 30
-                db.child("KidsClubLog").child(firebaseID).update({"Read":1, "Time": str(datetime.datetime.now())})
                 playSuccess()
-
+                db.child("KidsClubLog").child(firebaseID).update({"Read":1, "Time": str(datetime.datetime.now())})
             else:
                 # wrong app screen while sliding RFID
                 playError()
@@ -267,12 +266,11 @@ try:
         elif id == 317068237436: # REPLACE THIS WITH THE ID CARD FOR CHILD CHECKOUT   
             firebaseID = '853040429192' # KID CHECKOUT ID
             currentScreen = db.child("CurrentScreen").get().val()
-            print ("Current Screen: {}".format(currentScreen))
+            #print ("Current Screen: {}".format(currentScreen))
        
             if currentScreen == 31: # check out page is 31
-                db.child("KidsClubLog").child(firebaseID).update({"Read":1, "Time": str(datetime.datetime.now())})
                 playSuccess()
-
+                db.child("KidsClubLog").child(firebaseID).update({"Read":1, "Time": str(datetime.datetime.now())})
             else:
                 # wrong app screen while sliding RFID
                 playError()
@@ -280,24 +278,23 @@ try:
         elif id == 768876878351: # REPLACE THIS WITH THE ID CARD FOR PARENT
             firebaseID = '225094668797' # PARENT ID
             currentScreen = db.child("CurrentScreen").get().val()
-            print ("Current Screen: {}".format(currentScreen))
+            #print ("Current Screen: {}".format(currentScreen))
 
             if currentScreen == 1 or currentScreen == 18: # parent page is: 1, 18
-                db.child("KidsClubLog").child(firebaseID).update({"Read":1, "Time": str(datetime.datetime.now())})
-                # play sound and light
                 playSuccessParent()
+                db.child("KidsClubLog").child(firebaseID).update({"Read":1, "Time": str(datetime.datetime.now())})   
             else:
                 playError()
             
         elif id == 872787545537: # REPLACE THIS WITH THE ID CARD FOR EMPLOYEE
             firebaseID = '225111446012' # EMPLOYEE ID
             currentScreen = db.child("CurrentScreen").get().val()
-            print ("Current Screen: {}".format(currentScreen))
+            #print ("Current Screen: {}".format(currentScreen))
 
             if currentScreen == 17:
-                db.child("KidsClubLog").child(firebaseID).update({"Read":1, "Time": str(datetime.datetime.now())})
-                # play sound and light
                 playSuccessEmployee()
+                db.child("KidsClubLog").child(firebaseID).update({"Read":1, "Time": str(datetime.datetime.now())})
+                
             else:
                 playError()
 
