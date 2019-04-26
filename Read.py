@@ -25,12 +25,14 @@ dirName = os.path.dirname(__file__)
 soundPath1 = os.path.join(dirName, "sounds/happy_34.wav")
 soundPath2 = os.path.join(dirName, "sounds/ding_1.wav")
 soundPath3 = os.path.join(dirName, "sounds/happy_2.wav")
+soundPath4 = os.path.join(dirName, "sounds/ding_2.wav")
 
 # Create Pygame mixer object 
 pygame.mixer.init()
 #pygame is picky, wav file should be 16 bitdepth
 soundSuccess = pygame.mixer.Sound(soundPath1)
-soundSuccessEmployee = pygame.mixer.Sound(soundPath2)
+soundSuccessParent = pygame.mixer.Sound(soundPath2)
+soundSuccessEmployee = pygame.mixer.Sound(soundPath4)
 soundError = pygame.mixer.Sound(soundPath3)
 
 # Create NeoPixel object with appropriate configuration.
@@ -180,7 +182,7 @@ def playSuccess():
 
 def playSuccessEmployee():
     print ('success sound for employee...')
-    #soundSuccessEmployee.play()
+    soundSuccessEmployee.play()
     playLightSuccessEmployee()
     sleep(1)
     soundSuccessEmployee.stop()
@@ -188,10 +190,10 @@ def playSuccessEmployee():
 
 def playSuccessParent():
     print ('success sound for employee...')
-    soundSuccessEmployee.play()
+    soundSuccessParent.play()
     playLightSuccessParent()
     sleep(1)
-    soundSuccessEmployee.stop()
+    soundSuccessParent.stop()
     
 def playError():
     print ('error sound....')
@@ -319,3 +321,4 @@ finally:
         
         
         
+d 
