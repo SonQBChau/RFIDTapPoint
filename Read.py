@@ -7,8 +7,7 @@ from time import sleep
 import time
 import datetime
 from neopixel import *
-#import argparse
-#from firebase import firebase
+import os
 import pyrebase
 
 
@@ -22,12 +21,17 @@ LED_BRIGHTNESS = 100     # Set to 0 for darkest and 255 for brightest
 LED_INVERT     = False   # True to invert the signal (when using NPN transistor level shift)
 LED_CHANNEL    = 0       # set to '1' for GPIOs 13, 19, 41, 45 or 53
 
+dirName = os.path.dirname(__file__)
+soundPath1 = os.path.join(dirName, "sounds/happy_34.wav")
+soundPath2 = os.path.join(dirName, "sounds/ding_1.wav")
+soundPath3 = os.path.join(dirName, "sounds/happy_2.wav")
+
 # Create Pygame mixer object 
 pygame.mixer.init()
 #pygame is picky, wav file should be 16 bitdepth
-soundSuccess = pygame.mixer.Sound("sounds/happy_34.wav")
-soundSuccessEmployee = pygame.mixer.Sound("sounds/ding_1.wav")
-soundError = pygame.mixer.Sound("sounds/happy_2.wav")
+soundSuccess = pygame.mixer.Sound(soundPath1)
+soundSuccessEmployee = pygame.mixer.Sound(soundPath2)
+soundError = pygame.mixer.Sound(soundPath3)
 
 # Create NeoPixel object with appropriate configuration.
 strip = Adafruit_NeoPixel(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL)
