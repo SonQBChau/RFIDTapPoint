@@ -189,7 +189,7 @@ def playSuccessEmployee():
 
 
 def playSuccessParent():
-    print ('success sound for employee...')
+    print ('success sound for parent...')
     soundSuccessParent.play()
     playLightSuccessParent()
     sleep(1)
