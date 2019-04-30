@@ -9,6 +9,7 @@ import datetime
 from neopixel import *
 import os
 import pyrebase
+from threading import Thread
 
 
 # LED strip configuration:
@@ -189,7 +190,7 @@ def playSuccessEmployee():
 
 
 def playSuccessParent():
-    print ('success sound for parent...')
+    print ('success sound for employee...')
     soundSuccessParent.play()
     playLightSuccessParent()
     sleep(1)
@@ -238,6 +239,9 @@ def playSoundTest():
 def playLightTest():
     colorBreath()
     colorBounce()
+    
+def updateFirebase(firebaseID):
+    db.child("KidsClubLog").child(firebaseID).update({"Read":1, "Time": str(datetime.datetime.now())})
                 
 
 """
@@ -263,8 +267,8 @@ try:
             #print ("Current Screen: {}".format(currentScreen))
        
             if currentScreen == 30: # check in page is 30
-                playSuccess()
-                db.child("KidsClubLog").child(firebaseID).update({"Read":1, "Time": str(datetime.datetime.now())})
+                Thread(target=playSuccess).start()
+                Thread(target=updateFirebase(firebaseID)).start()
             else:
                 # wrong app screen while sliding RFID
                 playError()
@@ -275,8 +279,8 @@ try:
             #print ("Current Screen: {}".format(currentScreen))
        
             if currentScreen == 31: # check out page is 31
-                playSuccess()
-                db.child("KidsClubLog").child(firebaseID).update({"Read":1, "Time": str(datetime.datetime.now())})
+                Thread(target=playSuccess).start()
+                Thread(target=updateFirebase(firebaseID)).start()
             else:
                 # wrong app screen while sliding RFID
                 playError()
@@ -287,8 +291,8 @@ try:
             #print ("Current Screen: {}".format(currentScreen))
 
             if currentScreen == 1 or currentScreen == 18: # parent page is: 1, 18
-                playSuccessParent()
-                db.child("KidsClubLog").child(firebaseID).update({"Read":1, "Time": str(datetime.datetime.now())})   
+                Thread(target=playSuccessParent).start()
+                Thread(target=updateFirebase(firebaseID)).start()
             else:
                 playError()
             
@@ -298,9 +302,8 @@ try:
             #print ("Current Screen: {}".format(currentScreen))
 
             if currentScreen == 17:
-                playSuccessEmployee()
-                db.child("KidsClubLog").child(firebaseID).update({"Read":1, "Time": str(datetime.datetime.now())})
-                
+                Thread(target=playSuccessEmployee).start()
+                Thread(target=updateFirebase(firebaseID)).start()
             else:
                 playError()
 
