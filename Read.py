@@ -249,7 +249,7 @@ LOOP FOR RFID READER WAITING TO BE SCANNED
 """
 try:
     while True:
-        sleep(0.1)
+        sleep(0.5)
         print("Hold a tag near the reader")
         id, text = reader.read()
         print("ID: %s\nText: %s" % (id, text))
@@ -272,6 +272,7 @@ try:
             else:
                 # wrong app screen while sliding RFID
                 playError()
+            sleep(1)
 
         elif id == 853040429192: # REPLACE THIS WITH THE ID CARD FOR CHILD CHECKOUT   
             firebaseID = '853040429192' # KID CHECKOUT ID
@@ -284,6 +285,7 @@ try:
             else:
                 # wrong app screen while sliding RFID
                 playError()
+            sleep(1)
                                 
         elif id == 225094668797: # REPLACE THIS WITH THE ID CARD FOR PARENT
             firebaseID = '225094668797' # PARENT ID
@@ -295,6 +297,7 @@ try:
                 Thread(target=updateFirebase(firebaseID)).start()
             else:
                 playError()
+            sleep(1)
             
         elif id == 225111446012: # REPLACE THIS WITH THE ID CARD FOR EMPLOYEE
             firebaseID = '225111446012' # EMPLOYEE ID
@@ -306,6 +309,7 @@ try:
                 Thread(target=updateFirebase(firebaseID)).start()
             else:
                 playError()
+            sleep(1)
 
   
             
@@ -313,6 +317,7 @@ try:
             
         else: # ANY OTHER CARDS WILL MAKE IT INVALID
             playError()
+            sleep(1)
             #print("Playing Light Test...")
             #playLightTest()
             #playSoundTest()
@@ -321,7 +326,3 @@ try:
 finally:
         GPIO.cleanup()
         colorWipe(strip, Color(0,0,0), 10)
-        
-        
-        
-d 
