@@ -292,7 +292,8 @@ try:
             currentScreen = db.child("CurrentScreen").get().val()
             #print ("Current Screen: {}".format(currentScreen))
 
-            if currentScreen == 1 or currentScreen == 18: # parent page is: 1, 18
+	    #if currentScreen == 1 or currentScreen == 18: # parent page is: 1, 18
+            if currentScreen == 0: # parent only access from ipad app now
                 Thread(target=playSuccessParent).start()
                 Thread(target=updateFirebase(firebaseID)).start()
             else:
