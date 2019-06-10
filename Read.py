@@ -292,24 +292,24 @@ try:
             currentScreen = db.child("CurrentScreen").get().val()
             #print ("Current Screen: {}".format(currentScreen))
 
-	    if currentScreen == 1 or currentScreen == 18: # parent page is: 1, 18
-                Thread(target=playSuccessParent).start()
-                Thread(target=updateFirebase(firebaseID)).start()
-            else:
-                playError()
-            sleep(1)
+            if currentScreen == 1 or currentScreen == 18: # parent page is: 1, 18
+                    Thread(target=playSuccessParent).start()
+                    Thread(target=updateFirebase(firebaseID)).start()
+                else:
+                    playError()
+                sleep(1)
 	
-	elif id == 1011973426216: # PARENT IOS
+	    elif id == 1011973426216: # PARENT IOS
             firebaseID = '1011973426216' # PARENT ID
             currentScreen = db.child("CurrentScreen").get().val()
             #print ("Current Screen: {}".format(currentScreen))
 
-	    if currentScreen == 0:
-                Thread(target=playSuccessParent).start()
-                Thread(target=updateFirebase(firebaseID)).start()
-            else:
-                playError()
-            sleep(1)
+            if currentScreen == 0:
+                    Thread(target=playSuccessParent).start()
+                    Thread(target=updateFirebase(firebaseID)).start()
+                else:
+                    playError()
+                sleep(1)
             
         elif id == 225111446012: # REPLACE THIS WITH THE ID CARD FOR EMPLOYEE
             firebaseID = '225111446012' # EMPLOYEE ID
