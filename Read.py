@@ -298,7 +298,7 @@ try:
             else:
                 playError()
             sleep(1)
-	
+            
         elif id == 1011973426216: # PARENT IOS
             firebaseID = '1011973426216' # PARENT ID
             currentScreen = db.child("CurrentScreen").get().val()
@@ -334,7 +334,6 @@ try:
             #playLightTest()
             #playSoundTest()
             
-		
 
 finally:
         GPIO.cleanup()
