@@ -258,6 +258,8 @@ try:
             KID CHECKOUT ID: 853040429192
             PARENT ID: 225094668797
             EMPLOYEE ID: 225111446012
+            IOS PARENT ID: 1011973426216
+            SEAPASS KID CHECKIN ID: 584184446378
         """
         
         # replace with the device ID
@@ -276,6 +278,19 @@ try:
 
         elif id == 853040429192: # REPLACE THIS WITH THE ID CARD FOR CHILD CHECKOUT   
             firebaseID = '853040429192' # KID CHECKOUT ID
+            currentScreen = db.child("CurrentScreen").get().val()
+            #print ("Current Screen: {}".format(currentScreen))
+       
+            if currentScreen == 31: # check out page is 31
+                Thread(target=playSuccess).start()
+                Thread(target=updateFirebase(firebaseID)).start()
+            else:
+                # wrong app screen while sliding RFID
+                playError()
+            sleep(1)
+        
+        elif id == 584184446378: # SEAPASS ID 
+            firebaseID = '584184446378' # KID CHECKOUT ID
             currentScreen = db.child("CurrentScreen").get().val()
             #print ("Current Screen: {}".format(currentScreen))
        
