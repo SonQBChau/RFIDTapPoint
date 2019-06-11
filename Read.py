@@ -290,11 +290,11 @@ try:
             sleep(1)
         
         elif id == 584184446378: # SEAPASS ID 
-            firebaseID = '584184446378' # KID CHECKOUT ID
+            firebaseID = '584184446378' # KID CHECKIN ID
             currentScreen = db.child("CurrentScreen").get().val()
             #print ("Current Screen: {}".format(currentScreen))
        
-            if currentScreen == 31: # check out page is 31
+            if currentScreen == 30: # check in page is 30
                 Thread(target=playSuccess).start()
                 Thread(target=updateFirebase(firebaseID)).start()
             else:
