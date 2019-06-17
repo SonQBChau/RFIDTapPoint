@@ -314,7 +314,7 @@ try:
             PARENT ID: 225094668797
             EMPLOYEE ID: 225111446012
             IOS PARENT ID: 1011973426216
-            SEAPASS KID CHECKIN ID: 584184446378
+            WILDBAND KID CHECKIN ID: 584184446378
         """
         
         # replace with the device ID
@@ -341,7 +341,7 @@ try:
                 # wrong app screen while sliding RFID
                 playError()
         
-        elif id == 584184446378: # SEAPASS ID 
+        elif id == 584184446378: # WILDBAND ID 
             firebaseID = '584184446378' # KID CHECKIN ID
             currentScreen = db.child("CurrentScreen").get().val()
        
