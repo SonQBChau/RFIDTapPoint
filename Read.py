@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+# ROYAL CARIBBEAN FILE
 
 import RPi.GPIO as GPIO
 from mfrc522 import SimpleMFRC522
@@ -10,7 +10,8 @@ from neopixel import *
 import os
 import pyrebase
 from threading import Thread
-
+import threading
+import sys
 
 # LED strip configuration:
 LED_COUNT      = 93      # Number of LED pixels.
@@ -68,7 +69,45 @@ DOT_COLORS = [  0x200000,   # red
 		0x100010,   # purple
 		0x200010 ]  # pink
 
-
+class IdleLightThread(object):
+    """ Threading example class
+    The run() method will be started and it will run in the background
+    until the application exits.
+    """
+    can_loop = True
+    def __init__(self, interval=1):
+        """ Constructor
+        :type interval: int
+        :param interval: Check interval, in seconds
+        """
+        self.interval = interval
+    
+        thread = Thread(target=self.run, args=())
+        thread.daemon = True                            # Daemonize thread
+        thread.start()                                  # Start the execution
+    
+    def run(self):
+        eyeSize = 10
+        rangeEye = LED_COUNT - eyeSize
+        speedDelay = 30
+        returnDelay = 100
+        colorLess = Color(0, 0, 0)
+        colorHigh= Color(0, 100, 0)
+        colorLow = Color (0, 10, 50)
+        i = 0
+        """ Method that runs forever """
+        while i < rangeEye:
+            if self.can_loop:
+                i = 0 if (rangeEye-1) == i else (i+1)
+                colorWipe(strip, colorLess)
+                for j in range(0, eyeSize, 1):
+                    value = 5 + j* 25
+                    strip.setPixelColor(i+j, Color(value,value,value))
+                strip.show()
+                time.sleep(speedDelay/1000.0)
+            else:
+                i = 0
+                
 def colorWipe(strip, color, wait_ms=50):
     """Wipe color across display a pixel at a time."""
     for i in range(strip.numPixels()):
@@ -134,7 +173,30 @@ def colorBreath():
                 color = Color(0, 0, k)
             colorWipe(strip, color)
             time.sleep(5/1000.0)
-    
+
+def redFadeOut():
+    # show light on
+    color = Color(0, 200, 0)
+    colorWipe(strip, color)
+    time.sleep(1000/1000.0)
+    # Fade OUT
+    for k in range(20, 0, -1):
+        color = Color(0, k*10, 0)
+        colorWipe(strip, color)
+        time.sleep(5/1000.0)
+    colorWipe(strip, Color(0,0,0))
+
+def greenFadeOut():
+    # show light on
+    color = Color(200, 0, 0)
+    colorWipe(strip, color)
+    time.sleep(1000/1000.0)
+    # Fade OUT
+    for k in range(20, 0, -1):
+        color = Color(k*10, 0, 0)
+        colorWipe(strip, color)
+        time.sleep(5/1000.0)
+        
 def colorBounce():
     """Color bounce from start to end animation."""
     eyeSize = 10
@@ -176,7 +238,7 @@ def colorBounce():
 FUNCTIONS CONTROLLER FOR PLAY
 """
 def playSuccess():
-    print ('success sound for kid....')
+    #print ('success sound for kid....')
     soundSuccess.play()
     playLightSuccess()
     soundSuccess.stop()
@@ -200,21 +262,21 @@ def playError():
     print ('error sound....')
     soundError.play()
     playLightError()
-    sleep(1)
-    soundError.stop()
 
 def playLightSuccess():
     print ('success color....')
-    theaterChaseRainbow(strip)
-    colorWipe(strip, Color(0,0,0))
+    idleLight.can_loop = False
+    greenFadeOut()
+    idleLight.can_loop = True
 
 def playLightError():
     print ('error color....')
-    for i in range(3):
-        colorWipe(strip, Color(0, 255, 0))
-        time.sleep(0.4)
-        colorWipe(strip, Color(0,0,0))
-        time.sleep(0.3)
+    
+    idleLight.can_loop = False
+    redFadeOut()
+    #sleep(0.8)
+    idleLight.can_loop = True
+
 
 def playLightSuccessEmployee():
     print ('employee color....')
@@ -231,28 +293,21 @@ def playLightSuccessParent():
         time.sleep(0.4)
         colorWipe(strip, Color(0,0,0))
         time.sleep(0.3)
-
-def playSoundTest():
-    soundTest = pygame.mixer.Sound("sounds/sounds_13.wav")
-    soundTest.play()
-    
-def playLightTest():
-    colorBreath()
-    colorBounce()
     
 def updateFirebase(firebaseID):
     db.child("KidsClubLog").child(firebaseID).update({"Read":1, "Time": str(datetime.datetime.now())})
                 
 
 """
-LOOP FOR RFID READER WAITING TO BE SCANNED
+WAITING LIGHT FUNCTION
 """
+idleLight = IdleLightThread()
 try:
     while True:
         sleep(0.5)
         print("Hold a tag near the reader")
-        id, text = reader.read()
-        print("ID: %s\nText: %s" % (id, text))
+        id = reader.read_id()
+        print("ID card is: %s" % (id))
         """
             KID CHECKIN ID: 165068935866
             KID CHECKOUT ID: 853040429192
@@ -266,20 +321,18 @@ try:
         if id == 165068935866: # REPLACE THIS WITH THE ID CARD FOR CHILD CHECKIN     
             firebaseID = '165068935866' # KID CHECKIN ID
             currentScreen = db.child("CurrentScreen").get().val()
-            #print ("Current Screen: {}".format(currentScreen))
        
             if currentScreen == 30: # check in page is 30
                 Thread(target=playSuccess).start()
-                Thread(target=updateFirebase(firebaseID)).start()
+                Thread(target=updateFirebase(
+                    )).start()
             else:
                 # wrong app screen while sliding RFID
                 playError()
-            sleep(1)
 
         elif id == 853040429192: # REPLACE THIS WITH THE ID CARD FOR CHILD CHECKOUT   
             firebaseID = '853040429192' # KID CHECKOUT ID
             currentScreen = db.child("CurrentScreen").get().val()
-            #print ("Current Screen: {}".format(currentScreen))
        
             if currentScreen == 31: # check out page is 31
                 Thread(target=playSuccess).start()
@@ -287,12 +340,10 @@ try:
             else:
                 # wrong app screen while sliding RFID
                 playError()
-            sleep(1)
         
         elif id == 584184446378: # SEAPASS ID 
             firebaseID = '584184446378' # KID CHECKIN ID
             currentScreen = db.child("CurrentScreen").get().val()
-            #print ("Current Screen: {}".format(currentScreen))
        
             if currentScreen == 30: # check in page is 30
                 Thread(target=playSuccess).start()
@@ -300,55 +351,39 @@ try:
             else:
                 # wrong app screen while sliding RFID
                 playError()
-            sleep(1)
                                 
         elif id == 225094668797: # REPLACE THIS WITH THE ID CARD FOR PARENT
             firebaseID = '225094668797' # PARENT ID
             currentScreen = db.child("CurrentScreen").get().val()
-            #print ("Current Screen: {}".format(currentScreen))
 
             if currentScreen == 1 or currentScreen == 18: # parent page is: 1, 18
                     Thread(target=playSuccessParent).start()
                     Thread(target=updateFirebase(firebaseID)).start()
             else:
                 playError()
-            sleep(1)
             
         elif id == 1011973426216: # PARENT IOS
             firebaseID = '1011973426216' # PARENT ID
             currentScreen = db.child("CurrentScreen").get().val()
-            #print ("Current Screen: {}".format(currentScreen))
 
             if currentScreen == 0:
                     Thread(target=playSuccessParent).start()
                     Thread(target=updateFirebase(firebaseID)).start()
             else:
                 playError()
-            sleep(1)
             
         elif id == 225111446012: # REPLACE THIS WITH THE ID CARD FOR EMPLOYEE
             firebaseID = '225111446012' # EMPLOYEE ID
             currentScreen = db.child("CurrentScreen").get().val()
-            #print ("Current Screen: {}".format(currentScreen))
 
             if currentScreen == 17:
                 Thread(target=playSuccessEmployee).start()
                 Thread(target=updateFirebase(firebaseID)).start()
             else:
                 playError()
-            sleep(1)
 
-  
-            
-            
-            
         else: # ANY OTHER CARDS WILL MAKE IT INVALID
-            playError()
-            sleep(1)
-            #print("Playing Light Test...")
-            #playLightTest()
-            #playSoundTest()
-            
+            playError() 
 
 finally:
         GPIO.cleanup()
