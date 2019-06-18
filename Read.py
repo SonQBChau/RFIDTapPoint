@@ -71,7 +71,7 @@ class IdleLightThread(object):
         thread.start()                                  # Start the execution
     
     def run(self):
-        eyeSize = 10
+        eyeSize = 1
         rangeEye = LED_COUNT - eyeSize
         speedDelay = 30
         returnDelay = 100
@@ -86,11 +86,15 @@ class IdleLightThread(object):
                 colorWipe(strip, colorLess)
                 for j in range(0, eyeSize, 1):
                     value = 5 + j* 25
-                    strip.setPixelColor(i+j, Color(value,value,value))
+                    dotPosition = (i + j)%32                 
+                    strip.setPixelColor(dotPosition, Color(value,value,value))
                 strip.show()
+                if eyeSize < 10:
+                    eyeSize += 1
                 time.sleep(speedDelay/1000.0)
             else:
                 i = 0
+                eyeSize = 1
                 
 """COLOR CONTROLLER FUNCTIONS"""                
 def colorWipe(strip, color, wait_ms=50):
