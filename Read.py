@@ -24,10 +24,6 @@ LED_INVERT     = False   # True to invert the signal (when using NPN transistor 
 LED_CHANNEL    = 0       # set to '1' for GPIOs 13, 19, 41, 45 or 53
 
 dirName = os.path.dirname(__file__)
-soundPath1 = os.path.join(dirName, "sounds/happy_34.wav")
-soundPath2 = os.path.join(dirName, "sounds/ding_1.wav")
-soundPath3 = os.path.join(dirName, "sounds/happy_2.wav")
-soundPath4 = os.path.join(dirName, "sounds/ding_2.wav")
 soundErrorPath = os.path.join(dirName, "sounds/Error_04_Sound.wav")
 soundSuccessPath = os.path.join(dirName, "sounds/Success_Alert_5_Sound.wav")
 
@@ -35,8 +31,6 @@ soundSuccessPath = os.path.join(dirName, "sounds/Success_Alert_5_Sound.wav")
 pygame.mixer.init()
 #pygame is picky, wav file should be 16 bitdepth
 soundSuccess = pygame.mixer.Sound(soundSuccessPath)
-soundSuccessParent = pygame.mixer.Sound(soundPath2)
-soundSuccessEmployee = pygame.mixer.Sound(soundPath4)
 soundError = pygame.mixer.Sound(soundErrorPath)
 
 # Create NeoPixel object with appropriate configuration.
@@ -58,19 +52,7 @@ config = {
 firebase = pyrebase.initialize_app(config)
 db = firebase.database()
 
-
-"""
-FUNCTIONS CONTROL FOR LIGHT STRIP
-"""
-DOT_COLORS = [  0x200000,   # red
-		0x201000,   # orange
-		0x202000,   # yellow
-		0x002000,   # green
-		0x002020,   # lightblue
-		0x000020,   # blue
-		0x100010,   # purple
-		0x200010 ]  # pink
-
+"""IDLE BACKGROUND THREAD FOR WAITING LIGHT"""
 class IdleLightThread(object):
     """ Threading example class
     The run() method will be started and it will run in the background
@@ -110,71 +92,12 @@ class IdleLightThread(object):
             else:
                 i = 0
                 
+"""COLOR CONTROLLER FUNCTIONS"""                
 def colorWipe(strip, color, wait_ms=50):
     """Wipe color across display a pixel at a time."""
     for i in range(strip.numPixels()):
         strip.setPixelColor(i, color)
     strip.show()
- 
-def theaterChase(strip, color, wait_ms=50, iterations=10):
-    """Movie theater light style chaser animation."""
-    for j in range(iterations):
-        for q in range(3):
-            for i in range(0, strip.numPixels(), 3):
-                strip.setPixelColor(i+q, color)
-            strip.show()
-            time.sleep(wait_ms/1000.0)
-            for i in range(0, strip.numPixels(), 3):
-                strip.setPixelColor(i+q, 0)
-                
-def theaterChaseRainbow(strip, wait_ms=50):
-    """Rainbow movie theater light style chaser animation."""
-    for j in range(30):
-        for q in range(3):
-            for i in range(0, strip.numPixels(), 3):
-                strip.setPixelColor(i+q, wheel((i+j) % 255))
-            strip.show()
-            time.sleep(wait_ms/1000.0)
-            for i in range(0, strip.numPixels(), 3):
-                strip.setPixelColor(i+q, 0)
-        
-def wheel(pos):
-    """Generate rainbow colors across 0-255 positions."""
-    if pos < 85:
-        return Color(pos * 3, 255 - pos * 3, 0)
-    elif pos < 170:
-        pos -= 85
-        return Color(255 - pos * 3, 0, pos * 3)
-    else:
-        pos -= 170
-        return Color(0, pos * 3, 255 - pos * 3)
-
-
-def colorBreath():
-    """Breathing effect animation."""
-    for j in range(3):
-        #Fade IN
-        for k in range(100):
-            color = Color(0, 0, 0)
-            if j == 0:
-                color = Color(k, 0, 0)
-            elif j == 1:
-                color = Color(0, k, 0)
-            elif j == 2:
-                color = Color(0, 0, k)
-            colorWipe(strip, color)
-            time.sleep(5/1000.0)
-        # Fade OUT
-        for k in range(100, 0, -1):
-            color = Color(0, 0, 0)
-            if j == 0:
-                color = Color(k, 0, 0)
-            elif j == 1:
-                color = Color(0, k, 0)
-            elif j == 2:
-                color = Color(0, 0, k)
-            colorWipe(strip, color)
-            time.sleep(5/1000.0)
 
 def redFadeOut():
     # show light on
@@ -198,42 +121,6 @@ def greenFadeOut():
         color = Color(k*10, 0, 0)
         colorWipe(strip, color)
         time.sleep(5/1000.0)
-        
-def colorBounce():
-    """Color bounce from start to end animation."""
-    eyeSize = 10
-    rangeEye = LED_COUNT - eyeSize - 2
-    speedDelay = 20
-    returnDelay = 100
-    
-    for i in range(0, rangeEye, 1):
-        colorLess = Color(0, 0, 0)
-        colorWipe(strip, colorLess)
-        colorHigh= Color(0, 100, 0)
-        colorLow = Color (0, 10, 0)
-        strip.setPixelColor(i, colorLow)
-        for j in range(1, eyeSize, 1):
-            strip.setPixelColor(i+j, colorHigh)
-        strip.setPixelColor(j+eyeSize+1, colorLow)
-        strip.show()
-        time.sleep(speedDelay/1000.0)
-            
-    time.sleep(returnDelay/1000.0)
-        
-    for i in range(rangeEye,0 ,-1):
-        colorLess = Color(0, 0, 0)
-        colorWipe(strip, colorLess)
-        colorHigh= Color(0, 100, 0)
-        colorLow = Color (0, 10, 0)
-        strip.setPixelColor(i, colorLow)
-        for j in range(1, eyeSize, 1):
-            strip.setPixelColor(i+j, colorHigh)
-        strip.setPixelColor(j+eyeSize+1, colorLow)
-        strip.show()
-        time.sleep(speedDelay/1000.0)
-        
-    time.sleep(returnDelay/1000.0)
-    
     colorWipe(strip, Color(0,0,0))
     
 """
@@ -243,21 +130,6 @@ def playSuccess():
     print ('success sound...')
     soundSuccess.play()
     playLightSuccess()
-    
-def playSuccessEmployee():
-    print ('success sound for employee...')
-    soundSuccessEmployee.play()
-    playLightSuccessEmployee()
-    sleep(1)
-    soundSuccessEmployee.stop()
-
-
-def playSuccessParent():
-    print ('success sound for employee...')
-    soundSuccessParent.play()
-    playLightSuccessParent()
-    sleep(1)
-    soundSuccessParent.stop()
     
 def playError():
     print ('error sound....')
@@ -272,37 +144,21 @@ def playLightSuccess():
 
 def playLightError():
     print ('error color....')
-    
     idleLight.can_loop = False
     redFadeOut()
-    #sleep(0.8)
     idleLight.can_loop = True
 
-
-def playLightSuccessEmployee():
-    print ('employee color....')
-    for i in range(1):
-        colorWipe(strip, Color(255,0 , 0))
-        time.sleep(0.4)
-        colorWipe(strip, Color(0,0,0))
-        time.sleep(0.3)
-
-def playLightSuccessParent():
-    print ('parent color....')
-    for i in range(1):
-        colorWipe(strip, Color(0,0 , 255))
-        time.sleep(0.4)
-        colorWipe(strip, Color(0,0,0))
-        time.sleep(0.3)
-    
+"""DATABASE FUNCTION"""    
 def updateFirebase(firebaseID):
     db.child("KidsClubLog").child(firebaseID).update({"Read":1, "Time": str(datetime.datetime.now())})
                 
 
 """
-WAITING LIGHT FUNCTION
+INIT WAITING LIGHT THREAD
 """
 idleLight = IdleLightThread()
+
+"""LOOP FOR RFID READER"""
 try:
     while True:
         sleep(0.5)
