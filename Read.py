@@ -324,8 +324,7 @@ try:
        
             if currentScreen == 30: # check in page is 30
                 Thread(target=playSuccess).start()
-                Thread(target=updateFirebase(
-                    )).start()
+                Thread(target=updateFirebase(firebaseID)).start()
             else:
                 # wrong app screen while sliding RFID
                 playError()
