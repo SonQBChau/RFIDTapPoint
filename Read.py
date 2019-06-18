@@ -357,7 +357,7 @@ try:
             currentScreen = db.child("CurrentScreen").get().val()
 
             if currentScreen == 1 or currentScreen == 18: # parent page is: 1, 18
-                    Thread(target=playSuccessParent).start()
+                    Thread(target=playSuccess).start()
                     Thread(target=updateFirebase(firebaseID)).start()
             else:
                 playError()
@@ -367,7 +367,7 @@ try:
             currentScreen = db.child("CurrentScreen").get().val()
 
             if currentScreen == 0:
-                    Thread(target=playSuccessParent).start()
+                    Thread(target=playSuccess).start()
                     Thread(target=updateFirebase(firebaseID)).start()
             else:
                 playError()
@@ -377,7 +377,7 @@ try:
             currentScreen = db.child("CurrentScreen").get().val()
 
             if currentScreen == 17:
-                Thread(target=playSuccessEmployee).start()
+                Thread(target=playSuccess).start()
                 Thread(target=updateFirebase(firebaseID)).start()
             else:
                 playError()
