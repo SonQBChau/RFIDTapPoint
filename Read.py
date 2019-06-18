@@ -28,14 +28,16 @@ soundPath1 = os.path.join(dirName, "sounds/happy_34.wav")
 soundPath2 = os.path.join(dirName, "sounds/ding_1.wav")
 soundPath3 = os.path.join(dirName, "sounds/happy_2.wav")
 soundPath4 = os.path.join(dirName, "sounds/ding_2.wav")
+soundErrorPath = os.path.join(dirName, "sounds/Error_04_Sound.wav")
+soundSuccessPath = os.path.join(dirName, "sounds/Success_Alert_5_Sound.wav")
 
 # Create Pygame mixer object 
 pygame.mixer.init()
 #pygame is picky, wav file should be 16 bitdepth
-soundSuccess = pygame.mixer.Sound(soundPath1)
+soundSuccess = pygame.mixer.Sound(soundSuccessPath)
 soundSuccessParent = pygame.mixer.Sound(soundPath2)
 soundSuccessEmployee = pygame.mixer.Sound(soundPath4)
-soundError = pygame.mixer.Sound(soundPath3)
+soundError = pygame.mixer.Sound(soundErrorPath)
 
 # Create NeoPixel object with appropriate configuration.
 strip = Adafruit_NeoPixel(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL)
@@ -238,11 +240,10 @@ def colorBounce():
 FUNCTIONS CONTROLLER FOR PLAY
 """
 def playSuccess():
-    #print ('success sound for kid....')
+    print ('success sound...')
     soundSuccess.play()
     playLightSuccess()
-    soundSuccess.stop()
-
+    
 def playSuccessEmployee():
     print ('success sound for employee...')
     soundSuccessEmployee.play()
