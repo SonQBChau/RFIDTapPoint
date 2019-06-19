@@ -188,7 +188,8 @@ try:
                 Thread(target=updateFirebase(firebaseID)).start()
             else:
                 # wrong app screen while sliding RFID
-                playError()
+                #playError()
+                Thread(target=playSuccess).start()
 
         elif id == 853040429192: # REPLACE THIS WITH THE ID CARD FOR CHILD CHECKOUT   
             firebaseID = '853040429192' # KID CHECKOUT ID
@@ -199,7 +200,8 @@ try:
                 Thread(target=updateFirebase(firebaseID)).start()
             else:
                 # wrong app screen while sliding RFID
-                playError()
+                #playError()
+                Thread(target=playSuccess).start()
         
         elif id == 584184446378: # WILDBAND ID 
             firebaseID = '584184446378' # KID CHECKIN ID
@@ -210,7 +212,8 @@ try:
                 Thread(target=updateFirebase(firebaseID)).start()
             else:
                 # wrong app screen while sliding RFID
-                playError()
+                #playError()
+                Thread(target=playSuccess).start()
                                 
         elif id == 225094668797: # REPLACE THIS WITH THE ID CARD FOR PARENT
             firebaseID = '225094668797' # PARENT ID
@@ -220,7 +223,8 @@ try:
                     Thread(target=playSuccess).start()
                     Thread(target=updateFirebase(firebaseID)).start()
             else:
-                playError()
+                #playError()
+                Thread(target=playSuccess).start()
             
         elif id == 1011973426216: # PARENT IOS
             firebaseID = '1011973426216' # PARENT ID
@@ -230,7 +234,8 @@ try:
                     Thread(target=playSuccess).start()
                     Thread(target=updateFirebase(firebaseID)).start()
             else:
-                playError()
+                #playError()
+                Thread(target=playSuccess).start()
             
         elif id == 225111446012: # REPLACE THIS WITH THE ID CARD FOR EMPLOYEE
             firebaseID = '225111446012' # EMPLOYEE ID
@@ -240,7 +245,8 @@ try:
                 Thread(target=playSuccess).start()
                 Thread(target=updateFirebase(firebaseID)).start()
             else:
-                playError()
+                #playError()
+                Thread(target=playSuccess).start()
 
         else: # ANY OTHER CARDS WILL MAKE IT INVALID
             playError() 
