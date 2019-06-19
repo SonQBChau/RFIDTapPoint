@@ -86,7 +86,7 @@ class IdleLightThread(object):
                 colorWipe(strip, colorLess)
                 for j in range(0, eyeSize, 1):
                     value = 5 + j* 25
-                    dotPosition = (i + j)%32   #NUMBER OF LED COUNT              
+                    dotPosition = (i + j) % LED_COUNT                 
                     strip.setPixelColor(dotPosition, Color(value,value,value))
                 strip.show()
                 if eyeSize < 10:
