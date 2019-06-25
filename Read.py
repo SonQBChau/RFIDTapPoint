@@ -190,6 +190,11 @@ try:
             Thread(target=playSuccess).start()
             Thread(target=updateFirebase(firebaseID)).start()
         
+        elif id == 584189768852: # NEW CARD FOR KID BOTH CHECKIN CHECKOUT  
+            firebaseID = '584189768852' # KID CHECKOUT ID
+            Thread(target=playSuccess).start()
+            Thread(target=updateFirebase(firebaseID)).start()
+        
         elif id == 584184446378: # WILDBAND ID 
             firebaseID = '584184446378' # KID CHECKIN ID
             Thread(target=playSuccess).start()
