@@ -181,72 +181,34 @@ try:
         # replace with the device ID
         if id == 165068935866: # REPLACE THIS WITH THE ID CARD FOR CHILD CHECKIN     
             firebaseID = '165068935866' # KID CHECKIN ID
-            currentScreen = db.child("CurrentScreen").get().val()
-       
-            if currentScreen == 30: # check in page is 30
-                Thread(target=playSuccess).start()
-                Thread(target=updateFirebase(firebaseID)).start()
-            else:
-                # wrong app screen while sliding RFID
-                #playError()
-                Thread(target=playSuccess).start()
+            Thread(target=playSuccess).start()
+            Thread(target=updateFirebase(firebaseID)).start()
+
 
         elif id == 853040429192: # REPLACE THIS WITH THE ID CARD FOR CHILD CHECKOUT   
             firebaseID = '853040429192' # KID CHECKOUT ID
-            currentScreen = db.child("CurrentScreen").get().val()
-       
-            if currentScreen == 31: # check out page is 31
-                Thread(target=playSuccess).start()
-                Thread(target=updateFirebase(firebaseID)).start()
-            else:
-                # wrong app screen while sliding RFID
-                #playError()
-                Thread(target=playSuccess).start()
+            Thread(target=playSuccess).start()
+            Thread(target=updateFirebase(firebaseID)).start()
         
         elif id == 584184446378: # WILDBAND ID 
             firebaseID = '584184446378' # KID CHECKIN ID
-            currentScreen = db.child("CurrentScreen").get().val()
-       
-            if currentScreen == 30: # check in page is 30
-                Thread(target=playSuccess).start()
-                Thread(target=updateFirebase(firebaseID)).start()
-            else:
-                # wrong app screen while sliding RFID
-                #playError()
-                Thread(target=playSuccess).start()
+            Thread(target=playSuccess).start()
+            Thread(target=updateFirebase(firebaseID)).start()
                                 
         elif id == 225094668797: # REPLACE THIS WITH THE ID CARD FOR PARENT
             firebaseID = '225094668797' # PARENT ID
-            currentScreen = db.child("CurrentScreen").get().val()
-
-            if currentScreen == 1 or currentScreen == 18: # parent page is: 1, 18
-                    Thread(target=playSuccess).start()
-                    Thread(target=updateFirebase(firebaseID)).start()
-            else:
-                #playError()
-                Thread(target=playSuccess).start()
+            Thread(target=playSuccess).start()
+            Thread(target=updateFirebase(firebaseID)).start()
             
         elif id == 1011973426216: # PARENT IOS
             firebaseID = '1011973426216' # PARENT ID
-            currentScreen = db.child("CurrentScreen").get().val()
-
-            if currentScreen == 0:
-                    Thread(target=playSuccess).start()
-                    Thread(target=updateFirebase(firebaseID)).start()
-            else:
-                #playError()
-                Thread(target=playSuccess).start()
+            Thread(target=playSuccess).start()
+            Thread(target=updateFirebase(firebaseID)).start()
             
         elif id == 225111446012: # REPLACE THIS WITH THE ID CARD FOR EMPLOYEE
             firebaseID = '225111446012' # EMPLOYEE ID
-            currentScreen = db.child("CurrentScreen").get().val()
-
-            if currentScreen == 17:
-                Thread(target=playSuccess).start()
-                Thread(target=updateFirebase(firebaseID)).start()
-            else:
-                #playError()
-                Thread(target=playSuccess).start()
+            Thread(target=playSuccess).start()
+            Thread(target=updateFirebase(firebaseID)).start()
 
         else: # ANY OTHER CARDS WILL MAKE IT INVALID
             playError() 
