@@ -170,14 +170,16 @@ try:
         id = reader.read_id()
         print("ID card is: %s" % (id))
         """
-            KID CHECKIN ID: 165068935866
-            KID CHECKOUT ID: 853040429192
-            PARENT ID: 225094668797
-            EMPLOYEE ID: 225111446012
-            IOS PARENT ID: 1011973426216
-            WILDBAND KID CHECKIN ID: 584184446378
-        """
+        REGISTRATION APP
+        1011973426216
+
+        EMPLOYEE APP
+        225094668797 -> Parent Card
+        225111446012 -> Employee Card
+        165068935866 -> Child Card (Check In)
+        584189768852 -> Wildband (Check In AND Check Out)
         
+        """
         # replace with the device ID
         if id == 165068935866: # REPLACE THIS WITH THE ID CARD FOR CHILD CHECKIN     
             firebaseID = '165068935866' # KID CHECKIN ID
@@ -185,33 +187,38 @@ try:
             Thread(target=updateFirebase(firebaseID)).start()
 
 
-        elif id == 853040429192: # REPLACE THIS WITH THE ID CARD FOR CHILD CHECKOUT   
-            firebaseID = '853040429192' # KID CHECKOUT ID
-            Thread(target=playSuccess).start()
-            Thread(target=updateFirebase(firebaseID)).start()
+        #elif id == 853040429192: # REPLACE THIS WITH THE ID CARD FOR CHILD CHECKOUT   
+        #    firebaseID = '853040429192' # KID CHECKOUT ID
+        #    Thread(target=playSuccess).start()
+        #    Thread(target=updateFirebase(firebaseID)).start()
         
         elif id == 584189768852: # NEW CARD FOR KID BOTH CHECKIN CHECKOUT  
-            firebaseID = '584189768852' # KID CHECKOUT ID
+            firebaseID = '584189768852' # KID CHECKIN AND CHECKOUT ID
             Thread(target=playSuccess).start()
             Thread(target=updateFirebase(firebaseID)).start()
         
-        elif id == 584184446378: # WILDBAND ID 
-            firebaseID = '584184446378' # KID CHECKIN ID
-            Thread(target=playSuccess).start()
-            Thread(target=updateFirebase(firebaseID)).start()
+        #elif id == 584184446378: # WILDBAND ID 
+        #    firebaseID = '584184446378' # KID CHECKIN ID
+        #    Thread(target=playSuccess).start()
+        #    Thread(target=updateFirebase(firebaseID)).start()
                                 
         elif id == 225094668797: # REPLACE THIS WITH THE ID CARD FOR PARENT
             firebaseID = '225094668797' # PARENT ID
             Thread(target=playSuccess).start()
             Thread(target=updateFirebase(firebaseID)).start()
             
-        elif id == 1011973426216: # PARENT IOS
-            firebaseID = '1011973426216' # PARENT ID
-            Thread(target=playSuccess).start()
-            Thread(target=updateFirebase(firebaseID)).start()
+        #elif id == 1011973426216: # PARENT IOS
+        #    firebaseID = '1011973426216' # PARENT ID
+        #    Thread(target=playSuccess).start()
+        #    Thread(target=updateFirebase(firebaseID)).start()
             
         elif id == 225111446012: # REPLACE THIS WITH THE ID CARD FOR EMPLOYEE
             firebaseID = '225111446012' # EMPLOYEE ID
+            Thread(target=playSuccess).start()
+            Thread(target=updateFirebase(firebaseID)).start()
+        
+        elif id == 1011973426216: # REPLACE THIS WITH THE ID CARD FOR REGISTRATION
+            firebaseID = '1011973426216' # REGISTRATION ID
             Thread(target=playSuccess).start()
             Thread(target=updateFirebase(firebaseID)).start()
 
