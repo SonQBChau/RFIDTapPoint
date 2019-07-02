@@ -153,9 +153,12 @@ def playLightError():
     idleLight.can_loop = True
 
 """DATABASE FUNCTION"""    
-def updateFirebase(firebaseID):
-    db.child("KidsClubLog").child(firebaseID).update({"Read":1, "Time": str(datetime.datetime.now())})
-                
+def updateEmployeeFirebase(firebaseID):
+    db.child("KidsClubLog").child(firebaseID).update({"EmployeeRead":1, "Time": str(datetime.datetime.now())})
+
+def updateRegistrationFirebase(firebaseID):
+    db.child("KidsClubLog").child(firebaseID).update({"RegistrationRead":1, "Time": str(datetime.datetime.now())})
+                 
 
 """
 INIT WAITING LIGHT THREAD
@@ -184,7 +187,7 @@ try:
         if id == 165068935866: # REPLACE THIS WITH THE ID CARD FOR CHILD CHECKIN     
             firebaseID = '165068935866' # KID CHECKIN ID
             Thread(target=playSuccess).start()
-            Thread(target=updateFirebase(firebaseID)).start()
+            Thread(target=updateEmployeeFirebase(firebaseID)).start()
 
 
         #elif id == 853040429192: # REPLACE THIS WITH THE ID CARD FOR CHILD CHECKOUT   
@@ -195,7 +198,7 @@ try:
         elif id == 584189768852: # NEW CARD FOR KID BOTH CHECKIN CHECKOUT  
             firebaseID = '584189768852' # KID CHECKIN AND CHECKOUT ID
             Thread(target=playSuccess).start()
-            Thread(target=updateFirebase(firebaseID)).start()
+            Thread(target=updateEmployeeFirebase(firebaseID)).start()
         
         #elif id == 584184446378: # WILDBAND ID 
         #    firebaseID = '584184446378' # KID CHECKIN ID
@@ -205,7 +208,7 @@ try:
         elif id == 225094668797: # REPLACE THIS WITH THE ID CARD FOR PARENT
             firebaseID = '225094668797' # PARENT ID
             Thread(target=playSuccess).start()
-            Thread(target=updateFirebase(firebaseID)).start()
+            Thread(target=updateEmployeeFirebase(firebaseID)).start()
             
         #elif id == 1011973426216: # PARENT IOS
         #    firebaseID = '1011973426216' # PARENT ID
@@ -215,12 +218,12 @@ try:
         elif id == 225111446012: # REPLACE THIS WITH THE ID CARD FOR EMPLOYEE
             firebaseID = '225111446012' # EMPLOYEE ID
             Thread(target=playSuccess).start()
-            Thread(target=updateFirebase(firebaseID)).start()
+            Thread(target=updateEmployeeFirebase(firebaseID)).start()
         
         elif id == 1011973426216: # REPLACE THIS WITH THE ID CARD FOR REGISTRATION
             firebaseID = '1011973426216' # REGISTRATION ID
             Thread(target=playSuccess).start()
-            Thread(target=updateFirebase(firebaseID)).start()
+            Thread(target=updateRegistrationFirebase(firebaseID)).start()
 
         else: # ANY OTHER CARDS WILL MAKE IT INVALID
             playError() 
