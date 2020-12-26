@@ -1,5 +1,8 @@
 # RFIDTapPoint
 
+![LED](/images/led.gif)
+
+
 # Preparation & Installation:
 
 1. Update our Raspberry Pi:
