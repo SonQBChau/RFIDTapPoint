@@ -1,7 +1,5 @@
 # RFIDTapPoint
 
-![LED](/images/led.gif)
-
 
 # Preparation & Installation:
 
@@ -112,3 +110,6 @@ https://pimylifeup.com/raspberry-pi-rfid-rc522/
 Connect and Control WS2812 RGB LED Strips via Raspberry Pi:
 
 https://tutorials-raspberrypi.com/connect-control-raspberry-pi-ws2812-rgb-led-strips/
+
+
+![LED](/images/led.gif)
